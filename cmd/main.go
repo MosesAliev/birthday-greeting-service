@@ -12,6 +12,6 @@ func main() {
 	database.ConnectDB()
 	router := gin.Default()
 	router.GET("/employees", post.Auth(get.GetEmployeesHandler))
-
+	router.POST("/employees/subscribe", post.Auth(post.SubscribeHandler))
 	router.Run()
 }

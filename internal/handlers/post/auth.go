@@ -45,6 +45,7 @@ func Auth(next func(c *gin.Context)) func(c *gin.Context) {
 			return
 		}
 
+		c.Request.Header.Add("login", user.Login)
 		next(c)
 	}
 

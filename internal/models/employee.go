@@ -8,7 +8,7 @@ import (
 
 type Employee struct {
 	gorm.Model
-	ID   int
-	Name string
-	Born time.Time
+	ID   int       `json:"id"`
+	Name string    `json:"name"`
+	Born time.Time `json:"-"`
 }
