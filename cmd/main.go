@@ -3,6 +3,7 @@ package main
 import (
 	"birthday-greeting-service/internal/database"
 	"birthday-greeting-service/internal/handlers/get"
+	"birthday-greeting-service/internal/handlers/post"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,6 +11,7 @@ import (
 func main() {
 	database.ConnectDB()
 	router := gin.Default()
-	router.GET("/employees", get.GetEmployeesHandler)
+	router.GET("/employees", post.Auth(get.GetEmployeesHandler))
+
 	router.Run()
 }
