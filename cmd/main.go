@@ -2,16 +2,11 @@ package main
 
 import (
 	"birthday-greeting-service/internal/database"
-	"birthday-greeting-service/internal/handlers/get"
-	"birthday-greeting-service/internal/handlers/post"
-
-	"github.com/gin-gonic/gin"
+	"birthday-greeting-service/internal/http/router"
 )
 
 func main() {
-	database.ConnectDB()
-	router := gin.Default()
-	router.GET("/employees", post.Auth(get.GetEmployeesHandler))
-	router.POST("/employees/", post.Auth(post.SubscribeHandler))
-	router.Run()
+	database.ConnectDB()      // подключение к БД
+	r := router.SetupRouter() // настройка роутера
+	r.Run()                   // запуск сервера
 }
