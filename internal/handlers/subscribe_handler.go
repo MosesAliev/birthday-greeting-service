@@ -1,8 +1,8 @@
-package post
+package handlers
 
 import (
 	"birthday-greeting-service/internal/database"
-	"birthday-greeting-service/internal/models"
+	"birthday-greeting-service/internal/model"
 	"database/sql"
 	"net/http"
 	"strconv"
@@ -18,7 +18,7 @@ func SubscribeHandler(c *gin.Context) {
 		return
 	}
 
-	employee := models.Employee{}
+	employee := model.Employee{}
 
 	c.BindJSON(&employee)                  // десериализуем json сотрудника
 	res := database.DB.Db.First(&employee) // находим сотрудника в базе данных

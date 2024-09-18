@@ -2,7 +2,7 @@ package tests
 
 import (
 	"birthday-greeting-service/internal/database"
-	"birthday-greeting-service/internal/http/handlers/get"
+	"birthday-greeting-service/internal/handlers"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,9 +12,10 @@ import (
 )
 
 func TestGetEmployeesHandler(t *testing.T) {
+
 	database.ConnectDB()                                         // подключение к БД
 	r := gin.Default()                                           // настройка роутера
-	r.GET("/employees", get.GetEmployeesHandler)                 //
+	r.GET("/employees", handlers.GetEmployeesHandler)            //
 	req, _ := http.NewRequest(http.MethodGet, "/employees", nil) // запрос на получение списка сотрудников
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)

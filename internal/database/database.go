@@ -1,9 +1,12 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"regexp"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -20,7 +23,22 @@ func ConnectDB() {
 	// Имя пользователя базы данных, пароль и имя базы данных
 	// берутся из переменных окружения,
 	// они описаны в файле .env
-	dsn := "host=localhost user=postgres password=5280 dbname=birthday-greeting-service port=5432 sslmode=disable TimeZone=Europe/Moscow"
+	projectName := regexp.MustCompile(`^(.*` + "birthday-greeting-service" + `)`)
+	currentWorkDirectory, _ := os.Getwd()
+	rootPath := projectName.Find([]byte(currentWorkDirectory))
+	if err := godotenv.Load(string(rootPath) + `/.env`); err != nil {
+		log.Print("No .env file found")
+		return
+	}
+
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/Moscow",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PORT"),
+	)
 	// создаём подключение к базе данных.
 	// В &gorm.Config настраивается логер,
 	// который будет сохранять информацию

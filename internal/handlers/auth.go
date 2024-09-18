@@ -1,8 +1,8 @@
-package post
+package handlers
 
 import (
 	"birthday-greeting-service/internal/database"
-	"birthday-greeting-service/internal/models"
+	"birthday-greeting-service/internal/model"
 	"log"
 	"net/http"
 	"strings"
@@ -37,7 +37,7 @@ func Auth(next func(c *gin.Context)) func(c *gin.Context) {
 		// обратите внимание, что при создании мы указывали тип []string, однако тут приводим к []inteface{}
 		// так происходит, потому что json не строго типизированный, из-за чего при парсинге нельзя точно
 		// определить тип слайса.
-		user := models.User{}
+		user := model.User{}
 
 		database.DB.Db.First(&user, "login = ?", login)
 		if len(user.Login) == 0 {

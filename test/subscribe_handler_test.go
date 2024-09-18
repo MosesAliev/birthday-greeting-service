@@ -2,8 +2,8 @@ package tests
 
 import (
 	"birthday-greeting-service/internal/database"
-	"birthday-greeting-service/internal/http/handlers/post"
-	"birthday-greeting-service/internal/models"
+	"birthday-greeting-service/internal/handlers"
+	"birthday-greeting-service/internal/model"
 	"bytes"
 	"encoding/json"
 	"net/http"
@@ -15,11 +15,12 @@ import (
 )
 
 func TestSubscribeHandler(t *testing.T) {
-	database.ConnectDB()                         // подключение к БД
-	r := gin.Default()                           // настройка роутера
-	r.POST("/employees/", post.SubscribeHandler) //
+
+	database.ConnectDB()                             // подключение к БД
+	r := gin.Default()                               // настройка роутера
+	r.POST("/employees/", handlers.SubscribeHandler) //
 	w := httptest.NewRecorder()
-	employee1 := models.Employee{}
+	employee1 := model.Employee{}
 	employee1.ID = 1
 	employee1.Name = "Иван" // если сотрудник есть в БД, то код ответа 200
 	jsonValue, _ := json.Marshal(employee1)
@@ -30,7 +31,7 @@ func TestSubscribeHandler(t *testing.T) {
 	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code) // проверяем, что всё ок
-	employee2 := models.Employee{}
+	employee2 := model.Employee{}
 	employee2.ID = 2
 	employee2.Name = "Александр" // если сотрудника нет в БД, то код ответа 404
 	jsonValue, _ = json.Marshal(employee2)
