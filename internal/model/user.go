@@ -1,9 +1,6 @@
 package model
 
-import "gorm.io/gorm"
-
 type User struct {
-	gorm.Model
-	Login         string
-	Subscriptions []int `gorm:"-"`
+	Login     string      `gorm:"primaryKey"`
+	Employees []*Employee `gorm:"many2many:subscriptions;" json:"-"`
 }

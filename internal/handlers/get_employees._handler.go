@@ -10,6 +10,9 @@ import (
 
 func GetEmployeesHandler(c *gin.Context) {
 	employees := []model.Employee{}
+
 	database.DB.Db.Find(&employees)
+
 	c.IndentedJSON(http.StatusOK, employees)
+
 }

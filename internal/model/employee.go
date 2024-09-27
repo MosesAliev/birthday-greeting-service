@@ -2,13 +2,11 @@ package model
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Employee struct {
-	gorm.Model
-	ID   int       `json:"id"`
-	Name string    `json:"name"`
-	Born time.Time `json:"-"`
+	ID    int       `json:"id" gorm:"primaryKey"`
+	Name  string    `json:"name"`
+	Born  time.Time `json:"born"`
+	Users []*User   `gorm:"many2many:subscriptions;" json:"-"`
 }

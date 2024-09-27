@@ -1,6 +1,7 @@
 package database
 
 import (
+	"birthday-greeting-service/internal/model"
 	"fmt"
 	"log"
 	"os"
@@ -49,13 +50,18 @@ func ConnectDB() {
 
 	if err != nil {
 		log.Fatal("Failed to connect to database.\n", err)
+
 		os.Exit(1)
+
 	}
 
 	log.Println("connected")
+
 	db.Logger = logger.Default.LogMode(logger.Info)
 
 	log.Println("running migration")
+
+	db.AutoMigrate(&model.Employee{}, &model.User{})
 
 	DB = Dbinstance{
 		Db: db,
